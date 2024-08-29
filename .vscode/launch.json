@@ -11,6 +11,27 @@
             "program": "src/app.py",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "name": "Python: Flask",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "src/app.py",
+                "FLASK_DEBUG": "1",
+                "PY_ENV": "dev"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload",
+                "--port",
+                "5000"
+            ],
+            "jinja": true,
+            "justMyCode": true,
+
         }
     ]
 }
