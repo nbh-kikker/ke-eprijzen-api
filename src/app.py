@@ -18,6 +18,7 @@ from resources.user import Users
 from resources.login import Login
 from resources.prices import Prices
 from resources.system import System
+from utils.secrets import Settings
 
 import logging
 import logging.config
@@ -98,12 +99,13 @@ except Exception as e:
     log.critical(e, exc_info=True)
     sys.exit(e)
 
-database = os.path.join(database_path, config['db']['name'])
+# database = os.path.join(database_path, config['db']['name'])
 
 app = Flask(__name__)
 try:
+    gcp = Settings(project=config['GCP']['project'])
     app.config['DEBUG'] = config['API']['debug']
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{database}"
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{gcp.access_value('eprice-db-user')}:{gcp.access_value('eprice-db-pw')}@{gcp.access_value('eprice-db-ip')}:{gcp.access_value('eprice-db-port')}/{gcp.access_value('eprice-db-name')}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = config['API']['secret']
     app.config['JWT_SECRET_KEY'] = config['API']['secret']
